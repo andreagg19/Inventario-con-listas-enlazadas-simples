@@ -81,6 +81,9 @@
     <label for="costo" class="txt">Costo:</label><br>
     <input class="entrada" type="text" id="costo"><br>
 
+    <label for="posicion" class="txt">Posicion:</label><br>
+    <input class="entrada" type="text" id="posicion"><br>
+
     <label for="buscar" class="txt">Busqueda:</label><br>
     <input class="entrada" type="text" id="busqueda"><br>
 
@@ -89,6 +92,7 @@
     <button type="button" class="boton" id="search">Buscar</button>
     <button type="button" class="boton" id="list">Listado</button>
     <button type="button" class="boton" id="listin">Listado inverso</button>
+    <button type="button" class="boton" id="insert">Insertar</button>
 
     <div>
         <h1 id="list">Productos</h1>
@@ -98,83 +102,158 @@
     <script>
         class Inventory{
             constructor(){
-            this.products = [];
-            this.aux;
+            this.products = products;
+            this.next = null;
             }
-
-            add(product){
-                if(this.products.length>0){
-                    this.products.push(product);
-                    for(var b=this.products.length-2; b>=0; b--){
-                        if(product.codigo<=this.products[b].codigo){
-                            this.aux=this.products[b]
-                            this.products[b]=product
-                            this.products[b+1]=this.aux
-                        }
-                    }
-                    return true;
-                } else {
-                    this.products.push(product);
-                    return true;
+        }
+            class Listtt{
+                constructor(){
+                    this.first=null;
                 }
-            }
-
-            delete(codigo){
-                var aux={}
-                for(let i=0; i<this.products.length; i++){
-                    if (codigo==this.products[i].codigo){
-                        aux=this.products[i]
-                        for(let j=i; j<this.products.length;j++){
-                            this.products[j]=this.products[j+1]
-                        }
-                        this.products[this.products.length-1]=aux
-                        console.log(this.products)
-                        return this.products.pop()
-                    }
+                add(nuevo){
+                    if (this.first==null)
+                        this.first=nuevo;
+                else{
+                    let temp=this.first;
+                while (temp.next!=null)
+                    temp=temp.next;
+                    temp.next=nuevo;
                 }
             }
 
             search(codigo){
-            let proen = this.products.codigo;
-            for(let f = 0; f < this.products.length; f++){
-                if (this.products[f].codigo == codigo){
-                    return this.products[f];
+                if(this.first==null){
+                    return false;
                 }
-                if (this.products[f].codigo !== codigo){
-                    return console.log(null);
+                let tem=this.first
+                while(temp!=null){
+                    if(temp.codigo==codigo){
+                        return info();
+                    }
+                    temp=temp.next
                 }
+                return null
             }
-            while (mn<=mx){
-                f=Math.floor((mn+mx)/2);
-                if (this.products[f].codigo==codigo){
-                    return f;
-                }
-                else if(this.products[f].codigo>codigo){
-                    mx=f-1;
-                }
-                else{
-                    mn=f+1
-                }
-            }
-            return null;
-        }
 
-            lista(){
-            let listt = ' ';
-            for (let x = 0; x < this.products.length; x++) {
-                listt += this.products[x].info();
+            delete(codigo){
+                if(this.first==null){
+                    return false
+                }
+                else if(this.first.codigo==codigo){
+                    this.first=this.first.next
+                    return true;
+                }
+                let temp=this.first
+                while(temp!=null){
+                    if(temp.next.codigo=codigo){
+                        temp.next=temp.next.next
+                        return true;
+                    }
+                    else{
+                        temp=temp.next
+                    }
+                }
+                return false;
             }
-            return listt;
+
+            insert(){
+                0
+            }
+
+            list(){
+                let list=""
+                let temp=this.first
+                while(temp!=null){
+                    list+=temp.info();
+                    temp=temp.next
+                }
+                return list;
             }
 
             listin(){
-            let listtin = ' ';
-            for (let b = this.products.length-1; b >= 0; b--) {
-                listtin += this.products[b].info();
+                let listin="";
+                let temp=this.first
+                while(temp!=null){
+                    listin=temp.info()
+                    temp=temp.next
+                }
+                return listin;
             }
-            return listtin;
+
         }
-    }
+    //         add(product){
+    //             if(this.products.length>0){
+    //                 this.products.push(product);
+    //                 for(var b=this.products.length-2; b>=0; b--){
+    //                     if(product.codigo<=this.products[b].codigo){
+    //                         this.aux=this.products[b]
+    //                         this.products[b]=product
+    //                         this.products[b+1]=this.aux
+    //                     }
+    //                 }
+    //                 return true;
+    //             } else {
+    //                 this.products.push(product);
+    //                 return true;
+    //             }
+    //         }
+
+    //         delete(codigo){
+    //             var aux={}
+    //             for(let i=0; i<this.products.length; i++){
+    //                 if (codigo==this.products[i].codigo){
+    //                     aux=this.products[i]
+    //                     for(let j=i; j<this.products.length;j++){
+    //                         this.products[j]=this.products[j+1]
+    //                     }
+    //                     this.products[this.products.length-1]=aux
+    //                     console.log(this.products)
+    //                     return this.products.pop()
+    //                 }
+    //             }
+    //         }
+
+    //         search(codigo){
+    //         let proen = this.products.codigo;
+    //         for(let f = 0; f < this.products.length; f++){
+    //             if (this.products[f].codigo == codigo){
+    //                 return this.products[f];
+    //             }
+    //             if (this.products[f].codigo !== codigo){
+    //                 return console.log(null);
+    //             }
+    //         }
+    //         while (mn<=mx){
+    //             f=Math.floor((mn+mx)/2);
+    //             if (this.products[f].codigo==codigo){
+    //                 return f;
+    //             }
+    //             else if(this.products[f].codigo>codigo){
+    //                 mx=f-1;
+    //             }
+    //             else{
+    //                 mn=f+1
+    //             }
+    //         }
+    //         return null;
+    //     }
+
+    //         lista(){
+    //         let listt = ' ';
+    //         for (let x = 0; x < this.products.length; x++) {
+    //             listt += this.products[x].info();
+    //         }
+    //         return listt;
+    //         }
+
+    //         listin(){
+    //         let listtin = ' ';
+    //         for (let b = this.products.length-1; b >= 0; b--) {
+    //             listtin += this.products[b].info();
+    //         }
+    //         return listtin;
+    //     }
+    // 
 
         class Product{
             constructor(nombre, codigo, cantidad, costo){
@@ -203,7 +282,7 @@
             }
         }
 
-        let inventory = new Inventory();
+        let listtt = new Listtt();
         let addp = document.getElementById('add');
         addp.addEventListener('click', () => {
             let nombre = document.getElementById('nombre').value;
@@ -211,32 +290,32 @@
             let cantidad = document.getElementById('cantidad').value;
             let costo = document.getElementById('costo').value;
             let product = new Product (nombre, codigo, cantidad, costo);
-            let savepro = inventory.add(product);
+            let savepro = listtt.add(product);
             document.getElementById('inventoryy').InnerHTML = '<ul> Product added </ul>'
         })
 
         let deletep = document.getElementById('delete');
         deletep.addEventListener('click', () => {
             let code = document.getElementById('codigo').value
-            inventory.delete(code)
+            listtt.delete(code)
             document.getElementById('inventoryy').InnerHTML = '<ul>Product deleted</ul>'
         })
 
         let searchp = document.getElementById('search');
         searchp.addEventListener('click', () => {
             let code = document.getElementById('busqueda').value;
-            let producttt = inventory.search(code);
+            let producttt = listtt.search(code);
             document.getElementById('inventoryy').innerHTML += producttt.info();
         })
 
         let listp = document.getElementById('list');
         listp.addEventListener('click',()=>{
-            document.getElementById('inventoryy').innerHTML += inventory.lista();
+            document.getElementById('inventoryy').innerHTML += listtt.list();
         })
 
         let listinp = document.getElementById('listin');
         listinp.addEventListener('click',() => {
-            document.getElementById('inventoryy').innerHTML += inventory.listin();
+            document.getElementById('inventoryy').innerHTML += listtt.listin();
         })
     </script>
 </body>
